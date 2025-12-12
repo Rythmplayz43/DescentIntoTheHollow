@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descent Into The Hollow - Horror Extraction Game</title>
+    <meta name="description" content="Ein 1-4 Spieler kooperatives Horror-Extraction-Spiel für S&box, bei dem das Gebäude selbst der Hauptgegner ist.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 64px;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 107, 107, 0.8), 0 0 40px rgba(255, 107, 107, 0.5);
+            }
+        }
+
+        .header .subtitle {
+            font-size: 24px;
+            color: #4ecdc4;
+            margin-bottom: 40px;
+        }
+
+        .header .tagline {
+            font-size: 18px;
+            color: #b0b0b0;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(26, 26, 46, 0.9);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #4ecdc4;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4ecdc4;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid #4ecdc4;
+            border-radius: 5px;
+            color: #4ecdc4;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .github-link:hover {
+            background: rgba(78, 205, 196, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section h2 {
+            font-size: 36px;
+            color: #4ecdc4;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #4ecdc4, transparent);
+        }
+
+        /* Game Description */
+        .game-description {
+            background: rgba(26, 26, 46, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+        }
+
+        .game-description p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #d0d0d0;
+        }
+
+        .game-description p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(26, 26, 46, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(78, 205, 196, 0.2);
+            border-color: #4ecdc4;
+        }
+
+        .feature-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #ffd93d;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        /* Gameplay Elements */
+        .gameplay-elements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .element-card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b6b;
+            transition: all 0.3s;
+        }
+
+        .element-card:hover {
+            background: rgba(0, 0, 0, 0.6);
+            border-left-color: #4ecdc4;
+        }
+
+        .element-card h4 {
+            color: #4ecdc4;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .element-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .element-card li {
+            color: #b0b0b0;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .element-card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .tech-badge {
+            padding: 10px 20px;
+            background: rgba(78, 205, 196, 0.2);
+            border: 1px solid #4ecdc4;
+            border-radius: 20px;
+            color: #4ecdc4;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(26, 26, 46, 0.9);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 80px;
+        }
+
+        .footer p {
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #4ecdc4;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ff6b6b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 42px;
+            }
+
+            .header .subtitle {
+                font-size: 18px;
+            }
+
+            .nav-content {
+                flex-direction: column;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+
+            .game-description {
+                padding: 25px;
+            }
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation" id="backgroundAnimation"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="nav-links">
+                <a href="#about">Über das Spiel</a>
+                <a href="#features">Features</a>
+                <a href="#gameplay">Gameplay</a>
+                <a href="#tech">Technologie</a>
+            </div>
+            <a href="https://github.com/Rythmplayz43/DescentIntoTheHollow" class="github-link" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>DESCENT INTO THE HOLLOW</h1>
+        <p class="subtitle">Horror-Extraction-Spiel für S&box</p>
+        <p class="tagline">
+            Ein 1-4 Spieler kooperatives Horror-Extraction-Spiel, bei dem das Gebäude selbst der Hauptgegner ist. 
+            Erkunde verlassene Industriekomplexe, berg das Artefakt und entkomme, bevor die Struktur dich verschlingt.
+        </p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- About Section -->
+        <section id="about" class="section fade-in">
+            <h2>Über das Spiel</h2>
+            <div class="game-description">
+                <p>
+                    <strong>Descent Into The Hollow</strong> ist ein einzigartiges Horror-Extraction-Spiel, das sich auf 
+                    atmosphärische Spannung und psychologische Verzerrung konzentriert, anstatt auf direkten Kampf.
+                </p>
+                <p>
+                    Das Spiel findet in verlassenen Industriekomplexen statt, die selbst zum lebendigen Antagonisten werden. 
+                    Sobald die Spieler das zentrale Artefakt bergen, tritt das Gebäude in eine "Panic Phase" ein - 
+                    Blackouts, Halluzinationen, Audio-Verzerrungen und Raum-Verschiebungen machen die Flucht zur ultimativen Herausforderung.
+                </p>
+                <p>
+                    <strong>Horror-Stil:</strong> Minimalistische Monster, maximale Atmosphäre. Die Angst entsteht durch 
+                    Umgebungsdruck, Desorientierung, Audio-Manipulation und subtile visuelle Veränderungen. 
+                    Das Gefühl, vom Gebäude selbst gejagt zu werden, steht im Mittelpunkt.
+                </p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section fade-in">
+            <h2>Kern-Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">👥</div>
+                    <h3>Kooperatives Gameplay</h3>
+                    <p>1-4 Spieler arbeiten zusammen, um das Artefakt zu bergen und zu extrahieren. Teamwork ist entscheidend für den Erfolg.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🏭</div>
+                    <h3>Intelligente Umgebung</h3>
+                    <p>Das Gebäude selbst ist der Antagonist - es verschiebt Räume, manipuliert die Wahrnehmung und wird zunehmend feindselig.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🌑</div>
+                    <h3>Panic Phase</h3>
+                    <p>Sobald das Artefakt geborgen wird, beginnt die Panic Phase: Blackouts, Halluzinationen, falsche Footsteps und bewegende Schatten.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎯</div>
+                    <h3>Verschiedene Missionen</h3>
+                    <p>Artefakt-Bergung, Echo-Node-Stabilisierung, Stromversorgung wiederherstellen oder Crew-Logs wiederherstellen.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🛠️</div>
+                    <h3>Tool-basiertes Gameplay</h3>
+                    <p>Light Beacons, Echo Recorders, Portable Scanner, Lock Bars und Extraction Flares - keine Waffen, nur Tools zum Überleben.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🎨</div>
+                    <h3>Atmosphärischer Horror</h3>
+                    <p>Kalt, industriell, immersiv. Fokus auf Spannung und Teamwork statt auf Kampf. Ähnlich Lethal Company, aber mit eigener Identität.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gameplay Section -->
+        <section id="gameplay" class="section fade-in">
+            <h2>Gameplay-Elemente</h2>
+            <div class="gameplay-elements">
+                <div class="element-card">
+                    <h4>🎯 Mission-Phasen</h4>
+                    <ul>
+                        <li>Lobby - Vorbereitung</li>
+                        <li>Exploration - Artefakt suchen</li>
+                        <li>Panic Phase - Gebäude erwacht</li>
+                        <li>Extraction - Flucht zum Ausgang</li>
+                    </ul>
+                </div>
+                <div class="element-card">
+                    <h4>🌑 Panic Phase Effekte</h4>
+                    <ul>
+                        <li>Zufällige Blackouts</li>
+                        <li>Falsche Footstep-Sounds</li>
+                        <li>Bewegende Schatten</li>
+                        <li>Whisper & Voice Halluzinationen</li>
+                        <li>Audio-Verzerrungen</li>
+                        <li>Raum-Verschiebungen</li>
+                    </ul>
+                </div>
+                <div class="element-card">
+                    <h4>🛠️ Spieler-Tools</h4>
+                    <ul>
+                        <li>Light Beacons - Beleuchtung</li>
+                        <li>Echo Recorders - Illusionen erkennen</li>
+                        <li>Portable Scanner - Umgebung scannen</li>
+                        <li>Lock Bars - Türen blockieren</li>
+                        <li>Extraction Flare - Extraction signalisieren</li>
+                    </ul>
+                </div>
+                <div class="element-card">
+                    <h4>🎮 Mission-Typen</h4>
+                    <ul>
+                        <li>Artifact Retrieval</li>
+                        <li>Stabilize Echo Nodes</li>
+                        <li>Restore Power</li>
+                        <li>Recover Last Log</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech" class="section fade-in">
+            <h2>Technologie</h2>
+            <div class="game-description">
+                <p style="text-align: center; margin-bottom: 30px;">
+                    Entwickelt mit modernen Game-Development-Tools und -Frameworks
+                </p>
+            </div>
+            <div class="tech-stack">
+                <span class="tech-badge">S&box</span>
+                <span class="tech-badge">C#</span>
+                <span class="tech-badge">Source 2 Engine</span>
+                <span class="tech-badge">Multiplayer</span>
+                <span class="tech-badge">Horror Game Design</span>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>Descent Into The Hollow</strong></p>
+        <p>Ein Horror-Extraction-Spiel für S&box</p>
+        <div class="footer-links">
+            <a href="https://github.com/Rythmplayz43/DescentIntoTheHollow" target="_blank">GitHub Repository</a>
+            <a href="Assets/sound_designer_portal.html">Sound Designer Portal</a>
+        </div>
+        <p style="margin-top: 20px; font-size: 14px; color: #808080;">
+            © 2025 Descent Into The Hollow. Entwickelt für S&box.
+        </p>
+    </footer>
+
+    <script>
+        // Background Animation
+        function createParticles() {
+            const container = document.getElementById('backgroundAnimation');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Scroll Animation
+        function handleScrollAnimation() {
+            const elements = document.querySelectorAll('.fade-in');
+            const windowHeight = window.innerHeight;
+
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        createParticles();
+        handleScrollAnimation();
+        window.addEventListener('scroll', handleScrollAnimation);
+    </script>
+</body>
+</html>
+
