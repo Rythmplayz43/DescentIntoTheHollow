@@ -18,6 +18,56 @@
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Gruselige Overlay-Effekte */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+            animation: horrorFlicker 8s infinite;
+        }
+
+        @keyframes horrorFlicker {
+            0%, 100% { opacity: 1; }
+            48% { opacity: 1; }
+            49% { opacity: 0.95; }
+            50% { opacity: 1; }
+            51% { opacity: 0.98; }
+            52% { opacity: 1; }
+        }
+
+        /* Bewegende Schatten */
+        .shadow-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            background: radial-gradient(ellipse at var(--shadow-x, 50%) var(--shadow-y, 50%), 
+                transparent 0%, 
+                rgba(0, 0, 0, 0.4) 40%, 
+                rgba(0, 0, 0, 0.6) 100%);
+            animation: shadowMove 15s infinite ease-in-out;
+        }
+
+        @keyframes shadowMove {
+            0% { --shadow-x: 20%; --shadow-y: 30%; }
+            25% { --shadow-x: 80%; --shadow-y: 60%; }
+            50% { --shadow-x: 50%; --shadow-y: 80%; }
+            75% { --shadow-x: 30%; --shadow-y: 40%; }
+            100% { --shadow-x: 20%; --shadow-y: 30%; }
         }
 
         /* Animated Background */
@@ -38,6 +88,13 @@
             background: #4ecdc4;
             border-radius: 50%;
             animation: float 20s infinite;
+            box-shadow: 0 0 4px #4ecdc4;
+        }
+
+        .particle.horror {
+            background: #ff6b6b;
+            box-shadow: 0 0 6px #ff6b6b, 0 0 12px rgba(255, 107, 107, 0.5);
+            animation: float 15s infinite, horrorPulse 3s infinite;
         }
 
         @keyframes float {
@@ -48,6 +105,11 @@
             50% {
                 opacity: 1;
             }
+        }
+
+        @keyframes horrorPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
         }
 
         /* Header */
@@ -63,7 +125,8 @@
             color: #ff6b6b;
             text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
             margin-bottom: 20px;
-            animation: glow 2s ease-in-out infinite alternate;
+            animation: glow 2s ease-in-out infinite alternate, textFlicker 4s infinite;
+            position: relative;
         }
 
         @keyframes glow {
@@ -73,6 +136,12 @@
             to {
                 text-shadow: 0 0 30px rgba(255, 107, 107, 0.8), 0 0 40px rgba(255, 107, 107, 0.5);
             }
+        }
+
+        @keyframes textFlicker {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            98% { opacity: 1; transform: scale(1); }
+            99% { opacity: 0.7; transform: scale(0.98); }
         }
 
         .header .subtitle {
@@ -226,12 +295,36 @@
             padding: 30px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+            animation: cardGlow 2s infinite;
+        }
+
+        @keyframes cardGlow {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
         }
 
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(78, 205, 196, 0.2);
+            box-shadow: 0 12px 40px rgba(78, 205, 196, 0.2), 0 0 20px rgba(255, 107, 107, 0.1);
             border-color: #4ecdc4;
         }
 
@@ -392,6 +485,7 @@
 <body>
     <!-- Background Animation -->
     <div class="background-animation" id="backgroundAnimation"></div>
+    <div class="shadow-overlay"></div>
 
     <!-- Navigation -->
     <nav class="nav">
@@ -566,12 +660,41 @@
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'particle';
+                // 30% der Partikel sind "horror" Partikel (rot)
+                if (Math.random() < 0.3) {
+                    particle.className = 'particle horror';
+                } else {
+                    particle.className = 'particle';
+                }
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 20 + 's';
                 particle.style.animationDuration = (15 + Math.random() * 10) + 's';
                 container.appendChild(particle);
+            }
+        }
+
+        // Subtile Horror-Effekte
+        function addHorrorEffects() {
+            // Zufällige leichte Bildschirm-Flackerungen (sehr subtil)
+            setInterval(() => {
+                if (Math.random() < 0.1) { // 10% Chance alle 5 Sekunden
+                    document.body.style.filter = 'brightness(0.98)';
+                    setTimeout(() => {
+                        document.body.style.filter = 'brightness(1)';
+                    }, 50);
+                }
+            }, 5000);
+
+            // Bewegende Schatten aktualisieren
+            const shadowOverlay = document.querySelector('.shadow-overlay');
+            if (shadowOverlay) {
+                setInterval(() => {
+                    const x = 20 + Math.random() * 60;
+                    const y = 20 + Math.random() * 60;
+                    shadowOverlay.style.setProperty('--shadow-x', x + '%');
+                    shadowOverlay.style.setProperty('--shadow-y', y + '%');
+                }, 3000);
             }
         }
 
@@ -605,6 +728,7 @@
         // Initialize
         createParticles();
         handleScrollAnimation();
+        addHorrorEffects();
         window.addEventListener('scroll', handleScrollAnimation);
     </script>
 </body>
