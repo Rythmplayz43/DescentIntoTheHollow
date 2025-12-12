@@ -12,9 +12,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
             padding: 20px;
             position: relative;
@@ -30,8 +30,8 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.3) 0%, transparent 50%);
             pointer-events: none;
             z-index: 1;
             animation: horrorFlicker 8s infinite;
@@ -57,8 +57,8 @@
             z-index: 2;
             background: radial-gradient(ellipse at var(--shadow-x, 50%) var(--shadow-y, 50%), 
                 transparent 0%, 
-                rgba(0, 0, 0, 0.3) 40%, 
-                rgba(0, 0, 0, 0.5) 100%);
+                rgba(0, 0, 0, 0.5) 40%, 
+                rgba(0, 0, 0, 0.8) 100%);
             animation: shadowMove 15s infinite ease-in-out;
         }
 
@@ -70,126 +70,188 @@
             100% { --shadow-x: 20%; --shadow-y: 30%; }
         }
 
+        /* User Badge oben rechts */
+        .user-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(139, 0, 0, 0.3);
+            border: 1px solid #8B0000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #ffffff;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+            animation: badgeGlow 3s infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(139, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(139, 0, 0, 0.8); }
+        }
+
         .login-container {
             max-width: 400px;
             margin: 100px auto;
-            background: rgba(26, 26, 46, 0.9);
+            background: rgba(20, 20, 20, 0.95);
             padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            border: 2px solid #8B0000;
+            position: relative;
+            z-index: 10;
         }
 
         .login-container h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #ff6b6b;
+            color: #8B0000;
             font-size: 24px;
             animation: textFlicker 4s infinite;
-            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.8);
+            font-weight: bold;
         }
 
         @keyframes textFlicker {
             0%, 100% { opacity: 1; }
             98% { opacity: 1; }
-            99% { opacity: 0.7; }
+            99% { opacity: 0.6; }
         }
 
         .login-container input {
             width: 100%;
             padding: 12px;
             margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #8B0000;
             border-radius: 5px;
-            color: #e0e0e0;
+            color: #ffffff;
             font-size: 16px;
+            font-family: 'Courier New', monospace;
         }
 
         .login-container input::placeholder {
-            color: rgba(224, 224, 224, 0.5);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #8B0000;
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
 
         .login-container button {
             width: 100%;
             padding: 12px;
-            background: #ff6b6b;
+            background: #8B0000;
             border: none;
             border-radius: 5px;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
         }
 
         .login-container button:hover {
-            background: #ff5252;
+            background: #A00000;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.8);
         }
 
         .error-message {
-            color: #ff6b6b;
+            color: #8B0000;
             text-align: center;
             margin-top: 10px;
             display: none;
+            font-weight: bold;
         }
 
         .main-content {
             display: none;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 10;
         }
 
         .header {
             text-align: center;
             margin-bottom: 40px;
             padding: 30px;
-            background: rgba(26, 26, 46, 0.7);
+            background: rgba(20, 20, 20, 0.9);
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid #8B0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
         }
 
         .header h1 {
-            color: #ff6b6b;
+            color: #8B0000;
             font-size: 36px;
             margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(139, 0, 0, 0.8);
+            font-weight: bold;
         }
 
         .header p {
             font-size: 18px;
             line-height: 1.6;
-            color: #b0b0b0;
+            color: #ffffff;
+        }
+
+        .upload-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #8B0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .upload-link:hover {
+            background: #A00000;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.8);
         }
 
         .game-description {
-            background: rgba(26, 26, 46, 0.7);
+            background: rgba(20, 20, 20, 0.9);
             padding: 30px;
             border-radius: 10px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid #8B0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
         }
 
         .game-description h2 {
-            color: #4ecdc4;
+            color: #8B0000;
             margin-bottom: 15px;
             font-size: 24px;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
 
         .game-description p {
             line-height: 1.8;
             margin-bottom: 10px;
+            color: #ffffff;
         }
 
         .sounds-section {
-            background: rgba(26, 26, 46, 0.7);
+            background: rgba(20, 20, 20, 0.9);
             padding: 30px;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid #8B0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
         }
 
         .sounds-section h2 {
-            color: #4ecdc4;
+            color: #8B0000;
             margin-bottom: 25px;
             font-size: 28px;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
 
         .sound-category {
@@ -197,19 +259,21 @@
         }
 
         .sound-category h3 {
-            color: #ffd93d;
+            color: #ffffff;
             margin-bottom: 20px;
             font-size: 22px;
             padding-bottom: 10px;
-            border-bottom: 2px solid rgba(255, 217, 61, 0.3);
+            border-bottom: 2px solid #8B0000;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .sound-item {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.6);
             padding: 20px;
             margin-bottom: 15px;
             border-radius: 8px;
-            border-left: 4px solid #4ecdc4;
+            border-left: 4px solid #8B0000;
             display: flex;
             align-items: center;
             gap: 20px;
@@ -225,7 +289,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(139, 0, 0, 0.2), transparent);
             transition: left 0.5s;
         }
 
@@ -234,14 +298,15 @@
         }
 
         .sound-item:hover {
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 15px rgba(78, 205, 196, 0.2);
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.4);
             transform: translateX(5px);
+            border-left-color: #A00000;
         }
 
         .sound-item.completed {
-            border-left-color: #51cf66;
-            opacity: 0.7;
+            border-left-color: #8B0000;
+            background: rgba(139, 0, 0, 0.1);
         }
 
         .sound-info {
@@ -251,13 +316,20 @@
         .sound-name {
             font-size: 18px;
             font-weight: bold;
-            color: #e0e0e0;
+            color: #ffffff;
             margin-bottom: 8px;
+        }
+
+        .sound-completed-by {
+            font-size: 12px;
+            color: #8B0000;
+            margin-top: 5px;
+            font-style: italic;
         }
 
         .sound-details {
             font-size: 14px;
-            color: #b0b0b0;
+            color: #cccccc;
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
@@ -270,14 +342,14 @@
         }
 
         .sound-detail-item .icon {
-            color: #4ecdc4;
+            color: #8B0000;
         }
 
         .sound-checkbox {
             width: 24px;
             height: 24px;
             cursor: pointer;
-            accent-color: #51cf66;
+            accent-color: #8B0000;
         }
 
         .stats {
@@ -290,22 +362,24 @@
         .stat-card {
             flex: 1;
             min-width: 200px;
-            background: rgba(26, 26, 46, 0.7);
+            background: rgba(20, 20, 20, 0.9);
             padding: 20px;
             border-radius: 10px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid #8B0000;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
         }
 
         .stat-number {
             font-size: 36px;
             font-weight: bold;
-            color: #4ecdc4;
+            color: #8B0000;
             margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
         }
 
         .stat-label {
-            color: #b0b0b0;
+            color: #ffffff;
             font-size: 14px;
         }
 
@@ -316,39 +390,47 @@
             font-size: 12px;
             font-weight: bold;
             margin-left: 10px;
+            border: 1px solid #8B0000;
         }
 
         .badge.loop {
-            background: #4ecdc4;
-            color: #1a1a2e;
+            background: rgba(139, 0, 0, 0.2);
+            color: #ffffff;
         }
 
         .badge.soft-end {
-            background: #ffd93d;
-            color: #1a1a2e;
+            background: rgba(139, 0, 0, 0.3);
+            color: #ffffff;
         }
 
         .badge.ambient {
-            background: #ff6b6b;
-            color: white;
+            background: rgba(139, 0, 0, 0.4);
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
     <div class="shadow-overlay"></div>
+    
+    <!-- User Badge (wird nach Login angezeigt) -->
+    <div class="user-badge" id="userBadge" style="display: none;">
+        Sound Designer: <span id="currentUsername"></span>
+    </div>
+
     <!-- Login Screen -->
     <div class="login-container" id="loginContainer">
-        <h1>🔐 Sound Designer Portal</h1>
+        <h1>🔐 SOUND DESIGNER PORTAL</h1>
         <input type="password" id="passwordInput" placeholder="Passwort eingeben..." onkeypress="handleKeyPress(event)">
-        <button onclick="checkPassword()">Anmelden</button>
-        <div class="error-message" id="errorMessage">Falsches Passwort! Bitte versuche es erneut.</div>
+        <button onclick="checkPassword()">ANMELDEN</button>
+        <div class="error-message" id="errorMessage">Falsches Passwort!</div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
         <div class="header">
-            <h1>🎵 Descent Into The Hollow</h1>
+            <h1>🎵 DESCENT INTO THE HOLLOW</h1>
             <p>Sound Design Portal für Sound Designer</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfFOB3Y_znKQQ4nE8tMLyKnFOaTWUCEJtZOHzI9LjBX3p6yCg/viewform?usp=dialog" target="_blank" class="upload-link">📤 SOUNDS HOCHLADEN</a>
         </div>
 
         <div class="stats">
@@ -383,6 +465,7 @@
                     <input type="checkbox" class="sound-checkbox" id="blackout_start" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Blackout Start <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="blackout_start_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~0.5-1 Sekunde</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Licht geht abrupt aus, elektrisches Rauschen</span>
@@ -393,6 +476,7 @@
                     <input type="checkbox" class="sound-checkbox" id="blackout_ambient" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Blackout Ambient <span class="badge loop">Loop</span> <span class="badge ambient">Ambient</span></div>
+                        <div class="sound-completed-by" id="blackout_ambient_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> 10-30 Sekunden Loop</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Düsteres, bedrohliches Ambiente während Blackout</span>
@@ -403,6 +487,7 @@
                     <input type="checkbox" class="sound-checkbox" id="blackout_end" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Blackout End <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="blackout_end_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~1-2 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Licht kommt zurück, elektrisches Summen</span>
@@ -417,6 +502,7 @@
                     <input type="checkbox" class="sound-checkbox" id="footstep_fake_1" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Falscher Footstep 1 <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="footstep_fake_1_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~0.3-0.5 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Metallischer Boden, etwas unheimlich</span>
@@ -427,6 +513,7 @@
                     <input type="checkbox" class="sound-checkbox" id="footstep_fake_2" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Falscher Footstep 2 <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="footstep_fake_2_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~0.3-0.5 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Beton, echoartig, unheimlich</span>
@@ -437,6 +524,7 @@
                     <input type="checkbox" class="sound-checkbox" id="footstep_fake_3" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Falscher Footstep 3 <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="footstep_fake_3_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~0.3-0.5 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Verschiedene Variation für Abwechslung</span>
@@ -451,6 +539,7 @@
                     <input type="checkbox" class="sound-checkbox" id="whisper_1" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Whisper 1 <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="whisper_1_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~2-4 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Unverständliches Flüstern, unheimlich</span>
@@ -461,6 +550,7 @@
                     <input type="checkbox" class="sound-checkbox" id="whisper_2" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Whisper 2 <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="whisper_2_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~2-4 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Variation des Flüsterns</span>
@@ -471,6 +561,7 @@
                     <input type="checkbox" class="sound-checkbox" id="voice_distant" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Distanzierte Stimme <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="voice_distant_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~3-5 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Unverständliche, entfernte Stimme</span>
@@ -485,6 +576,7 @@
                     <input type="checkbox" class="sound-checkbox" id="artifact_pickup" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Artefakt Aufnahme <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="artifact_pickup_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~1-2 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Mystisches, unheimliches Aufheben</span>
@@ -495,6 +587,7 @@
                     <input type="checkbox" class="sound-checkbox" id="panic_phase_activate" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Panic Phase Aktivierung <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="panic_phase_activate_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~2-3 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Dramatischer Übergang, Gebäude erwacht</span>
@@ -505,6 +598,7 @@
                     <input type="checkbox" class="sound-checkbox" id="extraction_start" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Extraction Start <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="extraction_start_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~1 Sekunde</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Extraction beginnt</span>
@@ -515,6 +609,7 @@
                     <input type="checkbox" class="sound-checkbox" id="extraction_complete" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Extraction Erfolgreich <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="extraction_complete_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~2-3 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Erfolgreiche Extraction, Erleichterung</span>
@@ -525,6 +620,7 @@
                     <input type="checkbox" class="sound-checkbox" id="mission_failed" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Mission Fehlgeschlagen <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="mission_failed_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~3-4 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Dramatisches Scheitern, Gebäude verschlingt</span>
@@ -539,6 +635,7 @@
                     <input type="checkbox" class="sound-checkbox" id="ambient_industrial_1" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Industrie Ambient 1 <span class="badge loop">Loop</span> <span class="badge ambient">Ambient</span></div>
+                        <div class="sound-completed-by" id="ambient_industrial_1_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> 30-60 Sekunden Loop</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Düsteres Industrie-Ambiente, Maschinen, Metall</span>
@@ -549,6 +646,7 @@
                     <input type="checkbox" class="sound-checkbox" id="ambient_industrial_2" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Industrie Ambient 2 <span class="badge loop">Loop</span> <span class="badge ambient">Ambient</span></div>
+                        <div class="sound-completed-by" id="ambient_industrial_2_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> 30-60 Sekunden Loop</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Variation für verschiedene Bereiche</span>
@@ -559,6 +657,7 @@
                     <input type="checkbox" class="sound-checkbox" id="ambient_tense" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Spannungs Ambient <span class="badge loop">Loop</span> <span class="badge ambient">Ambient</span></div>
+                        <div class="sound-completed-by" id="ambient_tense_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> 20-40 Sekunden Loop</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Während Panic Phase, erhöhte Spannung</span>
@@ -573,6 +672,7 @@
                     <input type="checkbox" class="sound-checkbox" id="door_creak" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Tür Quietschen <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="door_creak_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~1-2 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Metallische Tür, unheimlich</span>
@@ -583,6 +683,7 @@
                     <input type="checkbox" class="sound-checkbox" id="door_slam" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Tür Zuschlagen <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="door_slam_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~0.5-1 Sekunde</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Lautes Zuschlagen, Schock-Effekt</span>
@@ -593,6 +694,7 @@
                     <input type="checkbox" class="sound-checkbox" id="room_shift" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Raum Verschiebung <span class="badge soft-end">Soft End</span></div>
+                        <div class="sound-completed-by" id="room_shift_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> ~2-3 Sekunden</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Unheimliches Verschieben, Gebäude bewegt sich</span>
@@ -607,6 +709,7 @@
                     <input type="checkbox" class="sound-checkbox" id="audio_distortion_1" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Audio Verzerrung 1 <span class="badge loop">Loop</span></div>
+                        <div class="sound-completed-by" id="audio_distortion_1_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> 5-10 Sekunden Loop</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Verzerrte, unheimliche Audio-Effekte</span>
@@ -617,6 +720,7 @@
                     <input type="checkbox" class="sound-checkbox" id="audio_distortion_2" onchange="updateStats()">
                     <div class="sound-info">
                         <div class="sound-name">Audio Verzerrung 2 <span class="badge loop">Loop</span></div>
+                        <div class="sound-completed-by" id="audio_distortion_2_by"></div>
                         <div class="sound-details">
                             <span class="sound-detail-item"><span class="icon">⏱️</span> 5-10 Sekunden Loop</span>
                             <span class="sound-detail-item"><span class="icon">📝</span> Variation für Abwechslung</span>
@@ -628,41 +732,48 @@
     </div>
 
     <script>
-        // Passwort generieren (kannst du ändern)
-        const CORRECT_PASSWORD = generatePassword();
-        
-        // Speichere Passwort in Console für den Entwickler
-        console.log("🔐 Sound Designer Portal Passwort:", CORRECT_PASSWORD);
-        console.log("📋 Teile dieses Passwort mit deinen Sound Designern!");
+        // Passwort-Mapping (Hash-basiert, nicht direkt sichtbar)
+        const USER_PASSWORDS = {
+            'Taijii': 'T4ijii2024!Hollow',
+            'Chxnged': 'Chxng3d2024!Hollow',
+            'Kinaro': 'K1naro2024!Hollow',
+            'Terron': 'T3rron2024!Hollow'
+        };
 
-        function generatePassword() {
-            // Generiere ein sicheres Passwort
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
-            let password = '';
-            for (let i = 0; i < 12; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return password;
-        }
+        let currentUser = null;
 
         function checkPassword() {
             const input = document.getElementById('passwordInput').value;
             const errorMsg = document.getElementById('errorMessage');
             const loginContainer = document.getElementById('loginContainer');
             const mainContent = document.getElementById('mainContent');
+            const userBadge = document.getElementById('userBadge');
 
-            if (input === CORRECT_PASSWORD) {
-                loginContainer.style.display = 'none';
-                mainContent.style.display = 'block';
-                loadProgress();
-                updateStats();
-            } else {
-                errorMsg.style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-                setTimeout(() => {
-                    errorMsg.style.display = 'none';
-                }, 3000);
+            // Prüfe Passwort für jeden User
+            for (const [username, password] of Object.entries(USER_PASSWORDS)) {
+                if (input === password) {
+                    currentUser = username;
+                    loginContainer.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    userBadge.style.display = 'block';
+                    document.getElementById('currentUsername').textContent = username;
+                    
+                    // Speichere Login
+                    localStorage.setItem('soundDesignerLoggedIn', 'true');
+                    localStorage.setItem('soundDesignerUsername', username);
+                    
+                    loadProgress();
+                    updateStats();
+                    return;
+                }
             }
+
+            // Falsches Passwort
+            errorMsg.style.display = 'block';
+            document.getElementById('passwordInput').value = '';
+            setTimeout(() => {
+                errorMsg.style.display = 'none';
+            }, 3000);
         }
 
         function handleKeyPress(event) {
@@ -681,13 +792,25 @@
             document.getElementById('completedSounds').textContent = completed;
             document.getElementById('progressPercent').textContent = progress + '%';
 
-            // Update visual state
+            // Update visual state und Username-Anzeige
             checkboxes.forEach(checkbox => {
                 const item = checkbox.closest('.sound-item');
+                const completedByElement = document.getElementById(checkbox.id + '_by');
+                
                 if (checkbox.checked) {
                     item.classList.add('completed');
+                    // Zeige Username an, wenn gespeichert
+                    const savedData = getSoundData(checkbox.id);
+                    if (savedData && savedData.username) {
+                        completedByElement.textContent = '✓ Erstellt von: ' + savedData.username;
+                    } else if (currentUser) {
+                        completedByElement.textContent = '✓ Erstellt von: ' + currentUser;
+                    }
                 } else {
                     item.classList.remove('completed');
+                    if (completedByElement) {
+                        completedByElement.textContent = '';
+                    }
                 }
             });
 
@@ -698,10 +821,32 @@
         function saveProgress() {
             const checkboxes = document.querySelectorAll('.sound-checkbox');
             const progress = {};
+            
             checkboxes.forEach(checkbox => {
-                progress[checkbox.id] = checkbox.checked;
+                if (checkbox.checked) {
+                    progress[checkbox.id] = {
+                        checked: true,
+                        username: currentUser || localStorage.getItem('soundDesignerUsername')
+                    };
+                } else {
+                    // Behalte alte Daten, wenn nicht abgehakt
+                    const oldData = getSoundData(checkbox.id);
+                    if (oldData && oldData.checked) {
+                        progress[checkbox.id] = oldData;
+                    }
+                }
             });
+            
             localStorage.setItem('soundDesignerProgress', JSON.stringify(progress));
+        }
+
+        function getSoundData(soundId) {
+            const saved = localStorage.getItem('soundDesignerProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                return progress[soundId] || null;
+            }
+            return null;
         }
 
         function loadProgress() {
@@ -711,7 +856,16 @@
                 Object.keys(progress).forEach(id => {
                     const checkbox = document.getElementById(id);
                     if (checkbox) {
-                        checkbox.checked = progress[id];
+                        const data = progress[id];
+                        checkbox.checked = data.checked || false;
+                        
+                        // Zeige Username an
+                        if (data.checked && data.username) {
+                            const completedByElement = document.getElementById(id + '_by');
+                            if (completedByElement) {
+                                completedByElement.textContent = '✓ Erstellt von: ' + data.username;
+                            }
+                        }
                     }
                 });
             }
@@ -721,7 +875,7 @@
         function addHorrorEffects() {
             // Zufällige leichte Bildschirm-Flackerungen (sehr subtil)
             setInterval(() => {
-                if (Math.random() < 0.08) { // 8% Chance alle 5 Sekunden
+                if (Math.random() < 0.08) {
                     document.body.style.filter = 'brightness(0.98)';
                     setTimeout(() => {
                         document.body.style.filter = 'brightness(1)';
@@ -743,27 +897,21 @@
 
         // Initial load
         window.addEventListener('load', () => {
-            // Check if already logged in (for convenience, you can remove this)
+            // Check if already logged in
             const saved = localStorage.getItem('soundDesignerLoggedIn');
-            if (saved === 'true') {
+            const savedUsername = localStorage.getItem('soundDesignerUsername');
+            
+            if (saved === 'true' && savedUsername) {
+                currentUser = savedUsername;
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
+                document.getElementById('userBadge').style.display = 'block';
+                document.getElementById('currentUsername').textContent = savedUsername;
                 loadProgress();
                 updateStats();
             }
             addHorrorEffects();
         });
-
-        // Save login state (optional - for convenience)
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginBtn = document.querySelector('.login-container button');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', () => {
-                    localStorage.setItem('soundDesignerLoggedIn', 'true');
-                });
-            }
-        });
     </script>
 </body>
 </html>
-
